@@ -2,42 +2,20 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "shell",
-            "label": "Compilar Jogo Detetive",
-            "command": "C:\\w64devkit\\bin\\gcc.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "C:\\VisualCode\\Detetive_Quest\\main.c",
-                "-o",
-                "C:\\VisualCode\\Detetive_Quest\\main.exe",
-                "-I",
-                "C:\\VisualCode\\Detetive_Quest\\include",
-                "-L",
-                "C:\\VisualCode\\Detetive_Quest\\lib",
-                "-lraylib",
-                "-lopengl32",
-                "-lgdi32",
-                "-lwinmm"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
             "type": "cppbuild",
-            "label": "C/C++: gcc.exe arquivo de build ativo",
-            "command": "C:\\raylib\\w64devkit\\bin\\gcc.exe",
+            "label": "Compilar Código Atual (Auto-Detectar)",
+            "command": "gcc", 
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                // Aqui dizemos para o GCC incluir a Raylib APENAS se o arquivo aberto estiver na pasta VsGrafico
+                "${if: VsGrafico in fileDirname, -lraylib}",
+                "${if: VsGrafico in fileDirname, -lopengl32}",
+                "${if: VsGrafico in fileDirname, -lgdi32}",
+                "${if: VsGrafico in fileDirname, -lwinmm}"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -49,7 +27,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Tarefa gerada pelo Depurador."
+            "detail": "Compila console normalmente e adiciona Raylib automaticamente na pasta VsGrafico"
         }
     ]
 }
